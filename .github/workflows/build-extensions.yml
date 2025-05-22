@@ -1,4 +1,4 @@
-name: Build Web Extension for All Browsers
+name: Build & Test Web Extension for All Browsers
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -26,10 +26,16 @@ jobs:
           node-version: 20
 
       - name: 📦 Install Dependencies
-        run: npm install
+        run: |
+          npm install
+          npx playwright install --with-deps
 
       - name: 🔧 Build for ${{ matrix.browser }}
         run: npm run build:${{ matrix.browser }}
+
+      - name: 🧪 Run Playwright Tests
+        if: matrix.browser != 'safari' # Safari/WebKit doesn't support extensions via CLI
+        run: npx playwright test --project=${{ matrix.browser == 'chrome' && 'Chromium' || 'Firefox' }}
 
       - name: 🗜️ Zip ${{ matrix.browser }} Build
         run: |

@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "@types/node": "^22.15.21",
     "@types/webextension-polyfill": "^0.12.3",
     "typescript": "~5.8.3",
