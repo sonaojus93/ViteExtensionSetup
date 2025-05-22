@@ -38,7 +38,7 @@ jobs:
           zip -r outputs/${{ matrix.browser }}.zip ./*
 
       - name: 📤 Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dlp-extension-${{ matrix.browser }}
           path: dist/outputs/${{ matrix.browser }}.zip
