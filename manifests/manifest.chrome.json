@@ -1,0 +1,37 @@
+{
+    "manifest_version": 3,
+    "name": "Enterprise DLP Extension",
+    "version": "1.0.0",
+    "description": "Blocks malicious URLs, prevents unauthorized uploads/downloads.",
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "downloads",
+        "storage",
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "background": {
+        "service_worker": "service_worker.js",
+        "type": "module"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "128": "icon.png"
+    }
+}

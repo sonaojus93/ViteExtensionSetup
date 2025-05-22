@@ -1,0 +1,44 @@
+{
+    "manifest_version": 3,
+    "name": "Enterprise DLP Extension (Firefox)",
+    "version": "1.0.0",
+    "description": "Blocks malicious URLs, prevents unauthorized uploads/downloads.",
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "downloads",
+        "storage",
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "background": {
+        "scripts": [
+            "service_worker.js"
+        ]
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "128": "icon.png"
+    },
+    "applications": {
+        "gecko": {
+            "id": "dlp-extension@example.com",
+            "strict_min_version": "109.0"
+        }
+    }
+}
