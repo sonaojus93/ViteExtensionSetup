@@ -1,0 +1,44 @@
+name: Build Web Extension for All Browsers
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [chrome, firefox, safari]
+
+    env:
+      BROWSER: ${{ matrix.browser }}
+
+    steps:
+      - name: ⬇️ Checkout Code
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: 📦 Install Dependencies
+        run: npm install
+
+      - name: 🔧 Build for ${{ matrix.browser }}
+        run: npm run build:${{ matrix.browser }}
+
+      - name: 🗜️ Zip ${{ matrix.browser }} Build
+        run: |
+          mkdir -p dist/outputs
+          cd dist
+          zip -r outputs/${{ matrix.browser }}.zip ./*
+
+      - name: 📤 Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dlp-extension-${{ matrix.browser }}
+          path: dist/outputs/${{ matrix.browser }}.zip
